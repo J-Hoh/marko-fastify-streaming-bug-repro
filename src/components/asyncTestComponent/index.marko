@@ -1,0 +1,47 @@
+$ var personPromise = new Promise((resolve, reject) => {
+    setTimeout(function() {
+        resolve();
+    }, 3000);
+});
+
+style {
+	#result {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: stretch;
+		align-content: center;
+		padding: 1em;
+		font-size: 4rem;
+	}
+	#result.loading {
+		background-color: blue;
+		color: white;
+	}
+	#result.resolved {
+		background-color: green;
+		color: white;
+	}
+	#result.errored {
+		background-color: red;
+	}
+}
+
+<await(personPromise) client-reorder=true timeout=5000>
+    <@placeholder>
+		<div#result.loading>
+			⌛ Loading... ⌛
+		</div>
+	</@placeholder>
+    <@then|result|>
+		<div#result.resolved>
+			🎉 RESOLVED 🎉
+		</div>
+    </@then>
+    <@catch|err|>
+		<div#result.errored>
+			Error: ${err.message}
+		</div>
+	</@catch>
+</await>
